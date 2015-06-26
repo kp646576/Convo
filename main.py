@@ -101,7 +101,7 @@ class BaseHandler(webapp2.RequestHandler):
 
 class MainHandler(BaseHandler):
   def get(self):
-    self.render_template('login.html')
+    self.render_template('home.html')
 
 class SignupHandler(BaseHandler):
   def get(self):
@@ -236,27 +236,21 @@ class SetPasswordHandler(BaseHandler):
 class LoginHandler(BaseHandler):
   def get(self):
     self._serve_page()
+    #self.render_template('login.html')
 
   def post(self):
     username = self.request.get('username')
     password = self.request.get('password')
-    print "this is username:" + str(username)
-    print "this is password:" + str(password)
 
     try:
       u = self.auth.get_user_by_password(username, password, remember=True,
         save_session=True)
-      print "u:" + str(u)
-      print "uri:" + str(self.uri_for('home'))
-      return "/"
       self.redirect(self.uri_for('home'))
     except (InvalidAuthIdError, InvalidPasswordError) as e:
-      print "why you in here?"
       logging.info('Login failed for user %s because of %s', username, type(e))
       self._serve_page(True)
 
   def _serve_page(self, failed=False):
-    print "you in serve page!"
     username = self.request.get('username')
     params = {
       'username': username,
@@ -285,12 +279,12 @@ config = {
 }
 
 app = webapp2.WSGIApplication([
-    webapp2.Route('/', MainHandler, name='login'),
+    webapp2.Route('/', LoginHandler, name='login'),
     webapp2.Route('/signup', SignupHandler),
     webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>',
       handler=VerificationHandler, name='verification'),
     webapp2.Route('/password', SetPasswordHandler),
-    webapp2.Route('/home', LoginHandler, name='home'),
+    webapp2.Route('/home', MainHandler, name='home'),
     webapp2.Route('/logout', LogoutHandler, name='logout'),
     webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
     webapp2.Route('/authenticated', AuthenticatedHandler, name='authenticated')
