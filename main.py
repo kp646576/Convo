@@ -101,7 +101,7 @@ class BaseHandler(webapp2.RequestHandler):
 
 class MainHandler(BaseHandler):
   def get(self):
-    self.render_template('home.html')
+    self.render_template('template.html')
 
 class SignupHandler(BaseHandler):
   def get(self):
