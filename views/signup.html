@@ -203,20 +203,24 @@ a.button:hover {
     <h1>Account</h1>
     <h1>Sign Up</h1>
 
-    <form action="/">
+    <form action="/signup" method="POST">
         <hr>
       <div class="accounttype">
       </div>
     <hr>
     <label id="icon" for="email"><i class="icon-envelope "></i></label>
-    <input type="text" name="name" id="name" placeholder="email" required/>
+    <input type="text" name="email" id="name" placeholder="email" required/>
     <label id="icon" for="name"><i class="icon-user"></i></label>
     <input type="text" name="name" id="name" placeholder="Name" required/>
     <label id="icon" for="password"><i class="icon-shield"></i></label>
     <input type="password" name="name" id="name" placeholder="Password" required/>
 
+
      <p>By clicking Register, you agree on our <a href="#">terms and condition</a>.</p>
-     <a href="#" class="button">Register</a>
+     <input type="submit" value="Create user" />
+
+
+
     </form>
   </div>
 </body>
