@@ -25,9 +25,10 @@ APPLICATION_KEY = '80805d38-246e-4bf7-860a-253e55a73581'
 #'AIzaSyCafgMf45bV2vF9GBZCrPJ_bkbSXAbTLXM'
 APPLICATION_SECRET = '74RGvay4eEyYnpkGg1+hMQ==' #'wLNLbYo79ngsHR3myjuvlzfy'
 
-def getAuthTicket():
+def getAuthTicket(user):
+    print "ticketauth:" + str(user['user_id'])
     userTicket = {
-        'identity': {'type': 'username', 'endpoint': 'asdf'},
+        'identity': {'type': 'username', 'endpoint': str(user['user_id'])},
         'expiresIn': 3600, #1 hour expiration time of session when created using this ticket
         'applicationKey': APPLICATION_KEY,
         'created': datetime.utcnow().isoformat()
@@ -266,6 +267,15 @@ class SetPasswordHandler(BaseHandler):
 
     self.display_message('Password updated')
 
+
+class TicketHandler(BaseHandler):
+    def get(self):
+        print "TicketHandler"
+        #print self.user
+        self.response.write(getAuthTicket(self.user_info))
+
+
+
 class LoginHandler(BaseHandler):
   def get(self):
     self._serve_page()
@@ -274,17 +284,16 @@ class LoginHandler(BaseHandler):
   def post(self):
     username = self.request.get('username')
     password = self.request.get('password')
-    print "inside the post"
-    self.response.write(getAuthTicket())
-    '''try:
+
+    try:
       u = self.auth.get_user_by_password(username, password, remember=True,
         save_session=True)
-      return getAuthTicket()
-      #self.redirect(self.uri_for('home'))
+      #return getAuthTicket()
+      self.redirect(self.uri_for('home'))
 
     except (InvalidAuthIdError, InvalidPasswordError) as e:
       logging.info('Login failed for user %s because of %s', username, type(e))
-      self._serve_page(True)'''
+      self._serve_page(True)
 
   def _serve_page(self, failed=False):
     username = self.request.get('username')
@@ -322,6 +331,7 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/password', SetPasswordHandler),
     webapp2.Route('/home', MainHandler, name='home'),
     webapp2.Route('/logout', LogoutHandler, name='logout'),
+    webapp2.Route('/ticket', TicketHandler, name='ticket'),
     webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
     webapp2.Route('/authenticated', AuthenticatedHandler, name='authenticated')
 ], debug=True, config=config)
