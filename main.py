@@ -14,6 +14,39 @@ from webapp2_extras import sessions
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
 
+from datetime import datetime
+import json
+import uuid
+import hmac
+import hashlib
+import base64
+
+APPLICATION_KEY = '80805d38-246e-4bf7-860a-253e55a73581'
+#'AIzaSyCafgMf45bV2vF9GBZCrPJ_bkbSXAbTLXM'
+APPLICATION_SECRET = '74RGvay4eEyYnpkGg1+hMQ==' #'wLNLbYo79ngsHR3myjuvlzfy'
+
+def getAuthTicket():
+    userTicket = {
+        'identity': {'type': 'username', 'endpoint': 'asdf'},
+        'expiresIn': 3600, #1 hour expiration time of session when created using this ticket
+        'applicationKey': APPLICATION_KEY,
+        'created': datetime.utcnow().isoformat()
+    }
+
+    userTicketJson = json.dumps(userTicket).replace(" ", "")
+    userTicketBase64 = base64.b64encode(userTicketJson)
+
+    # TicketSignature = Base64 ( HMAC-SHA256 ( ApplicationSecret, UTF8 ( UserTicketJson ) ) )
+    digest = hmac.new(base64.b64decode(
+        APPLICATION_SECRET), msg=userTicketJson, digestmod=hashlib.sha256).digest()
+    signature = base64.b64encode(digest)
+
+    # UserTicket = TicketData + ":" + TicketSignature
+    signedUserTicket = userTicketBase64 + ':' + signature
+
+    print {'userTicket': signedUserTicket}
+    return {"userTicket": signedUserTicket}
+
 def user_required(handler):
   """
     Decorator that checks if there's a user associated with the current session.
@@ -241,14 +274,17 @@ class LoginHandler(BaseHandler):
   def post(self):
     username = self.request.get('username')
     password = self.request.get('password')
-
-    try:
+    print "inside the post"
+    self.response.write(getAuthTicket())
+    '''try:
       u = self.auth.get_user_by_password(username, password, remember=True,
         save_session=True)
-      self.redirect(self.uri_for('home'))
+      return getAuthTicket()
+      #self.redirect(self.uri_for('home'))
+
     except (InvalidAuthIdError, InvalidPasswordError) as e:
       logging.info('Login failed for user %s because of %s', username, type(e))
-      self._serve_page(True)
+      self._serve_page(True)'''
 
   def _serve_page(self, failed=False):
     username = self.request.get('username')

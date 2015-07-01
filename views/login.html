@@ -21,7 +21,7 @@
             </div>
 
             <div class="col-md-12 col-xs-12 login_control">
-                <form class="form" action= "/" method="POST">
+                <!--<form class="form" action= "/" method="POST">-->
                     <div class="control">
                         <div class="label">Username</div>
                         <input type="text" class="form-control" id="username" name="username" autofocus="autofocus"/>
@@ -32,9 +32,9 @@
                         <input type="password" class="form-control" id="password" name="password"/>
                     </div>
                     <div align="center">
-                        <button class="btn btn-orange" id="loginUser" type="submit">LOGIN</button>
+                        <button class="btn btn-orange" id="loginUser" onclick="sinchInit()" type="submit">LOGIN</button>
                     </div>
-                  </form>
+                  <!--</form>-->
                     <div align="center">
                         <button class="btn btn-orange" id="createUser" onclick="window.location.href='/signup'">SIGNUP</button>
                     </div>
@@ -42,6 +42,9 @@
             </div>
         </div>
     </div>
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha256.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/core-min.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-base64-min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="../scripts/sinch.min.js"></script>
     <script src="../scripts/login.js"></script>
