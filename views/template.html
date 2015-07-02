@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="/images/icon.ico">
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/home.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <style>
     [data-role=page]{height: 100% !important; position:relative !important;}
     [data-role=footer]{bottom:0; position:absolute !important; top: auto !important; width:100%;}
@@ -18,20 +20,117 @@
 
   <div data-role="main" class="ui-content" id="main-content">
 
+    <div class="settings-container" style="display:none">
+        <button type="button" id="logout-btn" onclick="window.location.href='/logout'">Logout</button>
+    </div>
+
+    <div class="container" style="display:none">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-comment"></span>
+                        <div class="btn-group pull-right">
+                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-chevron-down"></span>
+                            </button>
+                            <ul class="dropdown-menu slidedown">
+                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-refresh">
+                                </span>Refresh</a></li>
+                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-ok-sign">
+                                </span>Available</a></li>
+                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-remove">
+                                </span>Busy</a></li>
+                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-time"></span>
+                                    Away</a></li>
+                                <li class="divider"></li>
+                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-off"></span>
+                                    Sign Out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="chat">
+                        </ul>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="input-group">
+                            <input id="btn-input" type="text" class="form-control input-sm" autofocus="autofocus" placeholder="Type your message here..." />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-warning btn-sm" id="send-msg-btn">
+                                    Send</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
   </div>
 
   <div data-role="footer">
        <div data-role="navbar">
          <ul>
-             <li><button href="#" data-role="button" data-icon="grid"></button></li>
-             <li><a href="#" data-role="button" data-icon="home" id="home-button"></a></li>
-             <li><a href="#" data-role="button" data-icon="gear"></a></li>
+             <li><a href="#" data-role="button" data-icon="grid" id="contacts-btn"></a></li>
+             <li><a href="#" data-role="button" data-icon="home" id="home-btn"></a></li>
+             <li><a href="#" data-role="button" data-icon="gear" id="settings-btn"></a></li>
          </ul>
      </div>
   </div>
 
+
+
+
+
+
+  <script id="buddyMsg" type="text/x-jQuery-tmpl">
+      <li class="left clearfix"><span class="chat-img pull-left">
+          <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
+      </span>
+          <div class="chat-body clearfix">
+              <div class="header">
+                  <strong class="primary-font">
+                      ${username}
+                  </strong>
+                  <small class="pull-right text-muted"> <span class="glyphicon glyphicon-time"></span>
+                      ${time}
+                  </small>
+              </div>
+              <p>
+                  ${msg}
+              </p>
+          </div>
+      </li>
+  </script>
+
+  <script id="userMsg" type="text/x-jQuery-tmpl">
+      <li class="right clearfix"><span class="chat-img pull-right">
+          <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" />
+      </span>
+          <div class="chat-body clearfix">
+              <div class="header">
+                  <small class=" text-muted"><span class="glyphicon glyphicon-time"></span>
+                      ${time}
+                  </small>
+                  <strong class="pull-right primary-font">
+                      ${username}
+                  </strong>
+              </div>
+              <p>
+                  ${msg}
+              </p>
+          </div>
+      </li>
+  </script>
+
   <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="../scripts/sinch.min.js"></script>
   <script src="../scripts/template.js"></script>
 </body>
 </html>

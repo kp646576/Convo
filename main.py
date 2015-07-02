@@ -3,6 +3,7 @@
 
 from google.appengine.ext.webapp import template
 from google.appengine.ext import ndb
+from webapp2_extras.appengine.auth.models import User
 
 import logging
 import os.path
@@ -21,14 +22,22 @@ import hmac
 import hashlib
 import base64
 
+# Sinch Credentials
 APPLICATION_KEY = '80805d38-246e-4bf7-860a-253e55a73581'
-#'AIzaSyCafgMf45bV2vF9GBZCrPJ_bkbSXAbTLXM'
-APPLICATION_SECRET = '74RGvay4eEyYnpkGg1+hMQ==' #'wLNLbYo79ngsHR3myjuvlzfy'
+APPLICATION_SECRET = '74RGvay4eEyYnpkGg1+hMQ=='
 
 def getAuthTicket(user):
     print "ticketauth:" + str(user['user_id'])
+    username = ''
+    print "user id:" + str(user['user_id'])
+    if str(user['user_id']) == '5629499534213120':
+        username = 'asdf'
+    else:
+        username = 'test-user1'
+    print "username:" + str(username)
+
     userTicket = {
-        'identity': {'type': 'username', 'endpoint': str(user['user_id'])},
+        'identity': {'type': 'username', 'endpoint': username},#str(user['user_id'])},
         'expiresIn': 3600, #1 hour expiration time of session when created using this ticket
         'applicationKey': APPLICATION_KEY,
         'created': datetime.utcnow().isoformat()
@@ -45,7 +54,7 @@ def getAuthTicket(user):
     # UserTicket = TicketData + ":" + TicketSignature
     signedUserTicket = userTicketBase64 + ':' + signature
 
-    print {'userTicket': signedUserTicket}
+    #print {'userTicket': signedUserTicket}
     return {"userTicket": signedUserTicket}
 
 def user_required(handler):
@@ -278,17 +287,26 @@ class TicketHandler(BaseHandler):
 
 class LoginHandler(BaseHandler):
   def get(self):
+    info = User.query().fetch()#ndb.gql("SELECT * FROM User")
+    #print "MAIN:" + str(info)
+
+    #for v in self.user:
+    #    print "value:" + str(v)
+    #print "name:" + str(self.user_info['name'])
     self._serve_page()
     #self.render_template('login.html')
 
   def post(self):
     username = self.request.get('username')
     password = self.request.get('password')
+    print ("username:" + str(username))
+    print ("password:" + str(password))
 
     try:
       u = self.auth.get_user_by_password(username, password, remember=True,
         save_session=True)
       #return getAuthTicket()
+      print ("u:" + str(u))
       self.redirect(self.uri_for('home'))
 
     except (InvalidAuthIdError, InvalidPasswordError) as e:
@@ -306,7 +324,7 @@ class LoginHandler(BaseHandler):
 class LogoutHandler(BaseHandler):
   def get(self):
     self.auth.unset_session()
-    self.redirect(self.uri_for('home'))
+    self.redirect(self.uri_for('login'))
 
 class AuthenticatedHandler(BaseHandler):
   @user_required
