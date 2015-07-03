@@ -2,8 +2,12 @@
 #!/usr/bin/env python
 
 from google.appengine.ext.webapp import template
+#from google.appengine.api import users
+
+#from webapp2_extras.appengine.api import users# import login_required
 from google.appengine.ext import ndb
 from webapp2_extras.appengine.auth.models import User
+
 
 import logging
 import os.path
@@ -26,6 +30,9 @@ import base64
 APPLICATION_KEY = '80805d38-246e-4bf7-860a-253e55a73581'
 APPLICATION_SECRET = '74RGvay4eEyYnpkGg1+hMQ=='
 
+################################################################################
+# Utility Functions
+################################################################################
 def getAuthTicket(user):
     print "ticketauth:" + str(user['user_id'])
     username = ''
@@ -71,6 +78,23 @@ def user_required(handler):
 
   return check_login
 
+def not_logged_in(handler):
+  """
+    Decorator that checks if there's a user associated with the current session.
+    Will also fail if there's no session present.
+  """
+  def check_login(self, *args, **kwargs):
+    auth = self.auth
+    if auth.get_user_by_session():
+      self.redirect(self.uri_for('home'), abort=True)
+    else:
+      return handler(self, *args, **kwargs)
+
+  return check_login
+
+################################################################################
+# Base Handler
+################################################################################
 class BaseHandler(webapp2.RequestHandler):
   @webapp2.cached_property
   def auth(self):
@@ -142,7 +166,12 @@ class BaseHandler(webapp2.RequestHandler):
           # Save all sessions.
           self.session_store.save_sessions(self.response)
 
+
+################################################################################
+# Handlers
+################################################################################
 class MainHandler(BaseHandler):
+  @user_required
   def get(self):
     self.render_template('template.html')
 
@@ -278,6 +307,7 @@ class SetPasswordHandler(BaseHandler):
 
 
 class TicketHandler(BaseHandler):
+    @user_required
     def get(self):
         print "TicketHandler"
         #print self.user
@@ -286,6 +316,7 @@ class TicketHandler(BaseHandler):
 
 
 class LoginHandler(BaseHandler):
+  @not_logged_in
   def get(self):
     info = User.query().fetch()#ndb.gql("SELECT * FROM User")
     #print "MAIN:" + str(info)
@@ -326,11 +357,10 @@ class LogoutHandler(BaseHandler):
     self.auth.unset_session()
     self.redirect(self.uri_for('login'))
 
-class AuthenticatedHandler(BaseHandler):
-  @user_required
-  def get(self):
-    self.render_template('authenticated.html')
 
+################################################################################
+# Additional Configs
+################################################################################
 config = {
   'webapp2_extras.auth': {
     'user_model': 'models.User',
@@ -341,6 +371,10 @@ config = {
   }
 }
 
+
+################################################################################
+# Routes
+################################################################################
 app = webapp2.WSGIApplication([
     webapp2.Route('/', LoginHandler, name='login'),
     webapp2.Route('/signup', SignupHandler),
@@ -351,7 +385,6 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/logout', LogoutHandler, name='logout'),
     webapp2.Route('/ticket', TicketHandler, name='ticket'),
     webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
-    webapp2.Route('/authenticated', AuthenticatedHandler, name='authenticated')
 ], debug=True, config=config)
 
 logging.getLogger().setLevel(logging.DEBUG)
