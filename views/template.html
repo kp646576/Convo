@@ -19,23 +19,19 @@
     </div>
 
   <div data-role="main" class="ui-content" id="main-content">
-
-    <div class="contacts-container" style="display:none">
-        
-        <ul>
-            <li value="Pickachu">Pickachu</li>
-            <li value="Bulbasaur">Bulbasaur</li>
-            <li value="Charmander">Charmander</li>
-            <li value="SquirtleBoss">Squirtle_Boss</li>
+<!----------------------------------------------------------------------------->
+    <div class="contacts-container">
+        <ul data-role="listview" data-autodividers="true" data-filter="true" id="contacts-list">
+            {% for name in names %}
+              <li><a href="">{{ name }}</a></li>
+            {% endfor %}
         </ul>
-
-         
     </div>
-
+<!----------------------------------------------------------------------------->
     <div class="settings-container" style="display:none">
         <button type="button" id="logout-btn" onclick="window.location.href='/logout'">Logout</button>
     </div>
-
+<!----------------------------------------------------------------------------->
     <div class="container" style="display:none">
         <div class="row">
             <div class="col-md-5">
@@ -78,11 +74,8 @@
             </div>
         </div>
     </div>
-
-
-
   </div>
-
+<!----------------------------------------------------------------------------->
   <div data-role="footer">
        <div data-role="navbar">
          <ul>
@@ -92,12 +85,7 @@
          </ul>
      </div>
   </div>
-
-
-
-
-
-
+<!----------------------------------------------------------------------------->
   <script id="buddyMsg" type="text/x-jQuery-tmpl">
       <li class="left clearfix"><span class="chat-img pull-left">
           <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />

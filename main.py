@@ -92,6 +92,15 @@ def not_logged_in(handler):
 
   return check_login
 
+def printUser():
+    info = User.query().fetch()
+    print "User List:"
+    print 100 * '#'
+    for user in User.query.fetch():
+        for name in user._properties:
+            print getattr(user, name)
+        print 100 * '#'
+
 ################################################################################
 # Base Handler
 ################################################################################
@@ -173,7 +182,7 @@ class BaseHandler(webapp2.RequestHandler):
 class MainHandler(BaseHandler):
   @user_required
   def get(self):
-    self.render_template('template.html')
+    self.render_template('template.html', {'names': [str(getattr(user, 'auth_ids')[0]) for user in User.query().fetch()]})
 
 class SignupHandler(BaseHandler):
   def get(self):
@@ -305,7 +314,6 @@ class SetPasswordHandler(BaseHandler):
 
     self.display_message('Password updated')
 
-
 class TicketHandler(BaseHandler):
     @user_required
     def get(self):
@@ -314,16 +322,10 @@ class TicketHandler(BaseHandler):
         self.response.write(getAuthTicket(self.user_info))
 
 
-
 class LoginHandler(BaseHandler):
   @not_logged_in
   def get(self):
-    info = User.query().fetch()#ndb.gql("SELECT * FROM User")
-    #print "MAIN:" + str(info)
 
-    #for v in self.user:
-    #    print "value:" + str(v)
-    #print "name:" + str(self.user_info['name'])
     self._serve_page()
     #self.render_template('login.html')
 
