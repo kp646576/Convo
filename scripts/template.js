@@ -106,11 +106,13 @@ Chat Controls
 $('#contacts-btn').on('click', function(e) {
 		$('.settings-container').css('display', 'none');
 		$('.container').css('display', 'none');
+        $('.contacts-container').css('display', 'block');
 });
 
 // Home-Button Controls
 $('#home-btn').on('click', function(e) {
 		$('.settings-container').css('display', 'none');
+        $('.contacts-container').css('display', 'none');
 		// Show chat box
     $('.container').css('display', 'block');
 });
@@ -123,6 +125,7 @@ $('#home-btn').one('click', function(e) {
 // Settings-Button Controls
 $('#settings-btn').on('click', function(e) {
 		$('.container').css('display', 'none');
+        $('.contacts-container').css('display', 'none');
 		$('.settings-container').css('display', 'block');
 });
 
