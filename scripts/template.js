@@ -113,11 +113,11 @@ $('#home-btn').on('click', function(e) {
 		$('.settings-container').css('display', 'none');
 		// Show chat box
     $('.container').css('display', 'block');
+});
 
-    // Display Recipient at top of chat-box
-   $('.panel-heading').html(global_recipient);
-    
-       
+$('#home-btn').one('click', function(e) {
+  // Display Recipient at top of chat-box
+  $('.panel-heading').html(global_recipient);
 });
 
 // Settings-Button Controls
