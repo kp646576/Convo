@@ -71,5 +71,5 @@ Sinch Specific Controlers
 ------------------------------------------------------------------------------*/
 $('#contacts-list li').on('click', function(e) {
 		global_recipient = $(this).text();
-    clickHomeBtn();
+    clickChatRmBtn();
 });

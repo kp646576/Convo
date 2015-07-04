@@ -316,6 +316,13 @@ class SetPasswordHandler(BaseHandler):
 
     self.display_message('Password updated')
 
+class ContactsListHandler(BaseHandler):
+    #def get(self):
+    def post(self):
+        print "implement"
+        #self.user.contact_list =
+        #self.user.put()
+
 class TicketHandler(BaseHandler):
     @user_required
     def get(self):
@@ -327,11 +334,11 @@ class TicketHandler(BaseHandler):
 class LoginHandler(BaseHandler):
   @not_logged_in
   def get(self):
-
     self._serve_page()
     #self.render_template('login.html')
 
   def post(self):
+    #self.user.contact_list = ['']
     username = self.request.get('username')
     password = self.request.get('password')
     print ("username:" + str(username))
@@ -368,7 +375,7 @@ class LogoutHandler(BaseHandler):
 config = {
   'webapp2_extras.auth': {
     'user_model': 'models.User',
-    'user_attributes': ['name']
+    'user_attributes': ['name', 'contact_list'],
   },
   'webapp2_extras.sessions': {
     'secret_key': 'YOUR_SECRET_KEY'
@@ -389,6 +396,7 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/logout', LogoutHandler, name='logout'),
     webapp2.Route('/ticket', TicketHandler, name='ticket'),
     webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
+    webapp2.Route('/cl', ContactsListHandler, name='cl'),
 ], debug=True, config=config)
 
 logging.getLogger().setLevel(logging.DEBUG)

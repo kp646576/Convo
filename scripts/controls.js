@@ -9,17 +9,16 @@ $('#contacts-btn').on('click', function(e) {
 });
 
 // Home-Button Controls
-var clickHomeBtn = function() {
+var clickChatRmBtn = function() {
 	$('.settings-container').css('display', 'none');
-			$('.contacts-container').css('display', 'none');
+	$('.contacts-container').css('display', 'none');
 	// Show chat box
 	$('.container').css('display', 'block');
 	$('.panel-heading').html(global_recipient);
 }
 
-$('#home-btn').one('click', function(e) {
-  // Display Recipient at top of chat-box
-
+$('#chatrm-btn').on('click', function(e) {
+	clickChatRmBtn();
 });
 
 // Settings-Button Controls
