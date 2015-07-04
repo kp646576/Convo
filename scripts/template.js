@@ -115,7 +115,9 @@ $('#home-btn').on('click', function(e) {
     $('.container').css('display', 'block');
 
     // Display Recipient at top of chat-box
-    $('.panel-heading').prepend(global_recipient);
+   $('.panel-heading').html(global_recipient);
+    
+       
 });
 
 // Settings-Button Controls
