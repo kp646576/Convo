@@ -182,7 +182,9 @@ class BaseHandler(webapp2.RequestHandler):
 class MainHandler(BaseHandler):
   @user_required
   def get(self):
-    self.render_template('template.html', {'names': [str(getattr(user, 'auth_ids')[0]) for user in User.query().fetch()]})
+    names = [str(getattr(user, 'auth_ids')[0]) for user in User.query().fetch()]
+    names.sort()
+    self.render_template('template.html', {'names': names})
 
 class SignupHandler(BaseHandler):
   def get(self):

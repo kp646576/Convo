@@ -51,11 +51,11 @@ var messageClient = sinchClient.getMessageClient();
 
 var eventListener = {
     onIncomingMessage: function(message){
-			  /*console.log('Message Received');
+			  console.log('Message Received');
         console.log('message came for you:' + message.textBody);
         console.log('senderID' + message.senderId);
         console.log('recipientID' + message.recipientIds);
-        console.log('global_recipient' + global_recipient);*/
+        console.log('global_recipient' + global_recipient);
 				// Display messages if they didn't com from you
         if (message.senderId != global_username) {
                 $('#buddyMsg').tmpl({'username': global_recipient, 'time': timeStamp() , 'msg': message.textBody}).appendTo('.chat');
@@ -66,4 +66,10 @@ var eventListener = {
 
 messageClient.addEventListener(eventListener);
 
-
+/*------------------------------------------------------------------------------
+Sinch Specific Controlers
+------------------------------------------------------------------------------*/
+$('#contacts-list li').on('click', function(e) {
+		global_recipient = $(this).text();
+    clickHomeBtn();
+});

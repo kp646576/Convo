@@ -9,16 +9,17 @@ $('#contacts-btn').on('click', function(e) {
 });
 
 // Home-Button Controls
-$('#home-btn').on('click', function(e) {
-		$('.settings-container').css('display', 'none');
-        $('.contacts-container').css('display', 'none');
-		// Show chat box
-    $('.container').css('display', 'block');
-});
+var clickHomeBtn = function() {
+	$('.settings-container').css('display', 'none');
+			$('.contacts-container').css('display', 'none');
+	// Show chat box
+	$('.container').css('display', 'block');
+	$('.panel-heading').html(global_recipient);
+}
 
 $('#home-btn').one('click', function(e) {
   // Display Recipient at top of chat-box
-  $('.panel-heading').html(global_recipient);
+
 });
 
 // Settings-Button Controls
@@ -39,7 +40,7 @@ $('#send-msg-btn').on('click', function(e) {
     $('.panel-body').scrollTop($('.panel-body')[0].scrollHeight);
 
     // Clears input?
-    $('input#btn-input').val('');
+    $('#btn-input').val('');
 
     var sinchMessage = messageClient.newMessage(global_recipient, text);
     //console.log('message object to be sent:' + sinchMessage.recipientIds);
