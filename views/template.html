@@ -20,10 +20,10 @@
 
   <div data-role="main" class="ui-content" id="main-content">
 <!----------------------------------------------------------------------------->
-    <div class="contacts-container">
+    <div class="contacts-container" style="display:none">
         <ul data-role="listview" data-autodividers="true" data-filter="true" id="contacts-list">
             {% for name in names %}
-              <li><a href="">{{ name }}</a></li>
+              <li><a href="" id={{ name }}>{{ name }}</a></li>
             {% endfor %}
         </ul>
     </div>
