@@ -1,31 +1,36 @@
 /*------------------------------------------------------------------------------
 Chat Controls
 ------------------------------------------------------------------------------*/
-// Contacts-Button Controls
-$('#contacts-btn').on('click', function(e) {
-		$('.settings-container').css('display', 'none');
-		$('.container').css('display', 'none');
-        $('.contacts-container').css('display', 'block');
-});
-
-// Home-Button Controls
-var clickChatRmBtn = function() {
-	$('.settings-container').css('display', 'none');
-	$('.contacts-container').css('display', 'none');
-	// Show chat box
-	$('.container').css('display', 'block');
-	$('.panel-heading').html(global_recipient);
+var containerCtrl = function(container) {
+    switch(container) {
+        case '.contacts-container':
+            $('.chat-container').css('display', 'none');
+            $('.settings-container').css('display', 'none');
+            $(container).css('display', 'block');
+            break;
+        case '.chat-container':
+            $('.contacts-container').css('display', 'none');
+            $('.settings-container').css('display', 'none');
+            $('.panel-heading').html(global_recipient);
+            $(container).css('display', 'block');
+            break;
+        default:
+            $('.contacts-container').css('display', 'none');
+            $('.chat-container').css('display', 'none');
+            $(container).css('display', 'block');
+    }
 }
 
-$('#chatrm-btn').on('click', function(e) {
-	clickChatRmBtn();
+$('#contacts-btn').on('click', function(e) {
+    containerCtrl('.contacts-container');
 });
 
-// Settings-Button Controls
+$('#chatrm-btn').on('click', function(e) {
+    containerCtrl('.chat-container');
+});
+
 $('#settings-btn').on('click', function(e) {
-		$('.container').css('display', 'none');
-        $('.contacts-container').css('display', 'none');
-		$('.settings-container').css('display', 'block');
+    containerCtrl('.settings-container');
 });
 
 $('#send-msg-btn').on('click', function(e) {
@@ -34,10 +39,8 @@ $('#send-msg-btn').on('click', function(e) {
     clearError();
 
     var text = $('input#btn-input').val();
-
     $('#userMsg').tmpl({'username': global_username, 'time': timeStamp() , 'msg': text}).appendTo('.chat');
     $('.panel-body').scrollTop($('.panel-body')[0].scrollHeight);
-
     // Clears input?
     $('#btn-input').val('');
 
@@ -47,4 +50,11 @@ $('#send-msg-btn').on('click', function(e) {
     messageClient.send(sinchMessage)
         .then(function() {console.log('Message Sent');})
         .fail(function() {console.log('Message Failed');});
+});
+
+/*------------------------------------------------------------------------------
+Settings Controls
+------------------------------------------------------------------------------*/
+$('#logout-btn').on('click', function(e) {
+    window.location.href='/logout';
 });

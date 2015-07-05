@@ -20,7 +20,6 @@ if (localStorage.getItem('username') == 'asdf'){
     recipient_id = '5629499534213120';
 }
 
-
 /*------------------------------------------------------------------------------
 Sinch Initialization
 ------------------------------------------------------------------------------*/
@@ -33,6 +32,8 @@ sinchClient = new SinchClient({
 
 $.get('/ticket', function(authTicket) {
     //console.log('inside ticket' + authTicket);
+    var sessionObj = JSON.parse(localStorage['sinchSession-' + sinchClient.applicationKey] || '{}');
+
     sinchClient.start(eval('(' + authTicket + ')'))
     //sinchClient.start({'username':'asdf', 'password':'asdf'})
         .then(function() {
@@ -40,6 +41,8 @@ $.get('/ticket', function(authTicket) {
             console.log('Sinch Start Successful');
             // Needed to listen for messages
             sinchClient.startActiveConnection();
+            localStorage['sinchSession-' + sinchClient.applicationKey] = JSON.stringify(sinchClient.getSession());
+            console.log(JSON.stringify(sinchClient.getSession()));
         })
         .fail(function(error) {
           // Handle Sinch error
@@ -51,12 +54,12 @@ var messageClient = sinchClient.getMessageClient();
 
 var eventListener = {
     onIncomingMessage: function(message){
-			  console.log('Message Received');
+        console.log('Message Received');
         console.log('message came for you:' + message.textBody);
         console.log('senderID' + message.senderId);
         console.log('recipientID' + message.recipientIds);
         console.log('global_recipient' + global_recipient);
-				// Display messages if they didn't com from you
+        // Display messages if they didn't com from you
         if (message.senderId != global_username) {
                 $('#buddyMsg').tmpl({'username': global_recipient, 'time': timeStamp() , 'msg': message.textBody}).appendTo('.chat');
                 $('.panel-body').scrollTop($('.panel-body')[0].scrollHeight);
@@ -70,6 +73,6 @@ messageClient.addEventListener(eventListener);
 Sinch Specific Controlers
 ------------------------------------------------------------------------------*/
 $('#contacts-list li').on('click', function(e) {
-		global_recipient = $(this).text();
-    clickChatRmBtn();
+    global_recipient = $(this).text();
+    containerCtrl('.chat-container');
 });
