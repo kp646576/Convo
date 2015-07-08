@@ -8,7 +8,7 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext import ndb
 from webapp2_extras.appengine.auth.models import User
 
-
+import json
 import logging
 import os.path
 import webapp2
@@ -323,6 +323,29 @@ class ContactsListHandler(BaseHandler):
         #self.user.contact_list =
         #self.user.put()
 
+class MessageHandler(BaseHandler):
+    #def get(self):
+
+    def post(self):
+        msg = json.loads(self.request.get('msg'))#('msg')
+        print 'msg:' + str(msg['recipient'])
+        #self.user.messages = {}
+        #self.user.put()
+        # Have to guard against empty messages value for user
+        # Is this only the case for users that didn't have this property beforehand?
+        recipient = msg['recipient']
+        if self.user.messages is None:
+            self.user.messages = {}
+        if not recipient in self.user.messages:
+            self.user.messages[recipient] = []
+            # do I need to put?
+            print 'NEW RECIPIENT CREATED'
+
+        self.user.messages[msg['recipient']].append(msg)
+        self.user.put()
+        print 'new msg: ' + str(self.user.messages[msg['recipient']])
+
+
 class TicketHandler(BaseHandler):
     @user_required
     def get(self):
@@ -338,7 +361,12 @@ class LoginHandler(BaseHandler):
     #self.render_template('login.html')
 
   def post(self):
-    #self.user.contact_list = ['']
+    #self.user.contact_list
+    #self.user.messages = {'test-user1': [{'sender': 'asdf', 'msg': 'h1n1', 'time': '12:00am'}]}
+    #self.user.put()
+    #print "messages" + str(self.user.messages)
+    #print "cl" + str(self.user.contact_list)
+
     username = self.request.get('username')
     password = self.request.get('password')
     print ("username:" + str(username))
@@ -375,7 +403,7 @@ class LogoutHandler(BaseHandler):
 config = {
   'webapp2_extras.auth': {
     'user_model': 'models.User',
-    'user_attributes': ['name', 'contact_list'],
+    'user_attributes': ['name', 'contact_list', 'messages'],
   },
   'webapp2_extras.sessions': {
     'secret_key': 'YOUR_SECRET_KEY'
@@ -397,6 +425,7 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/ticket', TicketHandler, name='ticket'),
     webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
     webapp2.Route('/cl', ContactsListHandler, name='cl'),
+    webapp2.Route('/msg', MessageHandler, name='msg'),
 ], debug=True, config=config)
 
 logging.getLogger().setLevel(logging.DEBUG)

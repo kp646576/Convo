@@ -6,6 +6,9 @@ from google.appengine.ext import ndb
 from webapp2_extras import security
 
 class User(webapp2_extras.appengine.auth.models.User):
+  contact_list = ndb.StringProperty(repeated=True)
+  messages = ndb.JsonProperty()
+
   def set_password(self, raw_password):
     """Sets the password for the current user
 

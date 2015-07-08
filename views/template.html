@@ -11,7 +11,7 @@
 <body>
   <div data-role="page" id="pageone">
   <div data-role="header">
-    <a href="/home" class="header-btn" data-icon="home">Home</a>
+    <a href="/home" class="header-btn" data-icon="home" id="home-btn">Home</a>
     <h1> My Convos </h1>
     <a href="#" class="header-btn" data-icon="plus">Add Contact</a>
   </div>
@@ -21,54 +21,59 @@
     <div class="contacts-container">
       <ul data-role="listview" data-autodividers="true" data-filter="true" id="contacts-list">
         {% for name in names %}
-          <li><a href="#" id={{ name }}> {{ name }} </a></li>
+          <li><a href="#" id={{ name }}>{{ name }}</a></li>
         {% endfor %}
       </ul>
     </div>
 
-  <div class="chat-container">
-    <div class="row">
-      <div class="col-md-5">
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <span class="glyphicon glyphicon-comment"></span>
-            <div class="btn-group pull-right">
-              <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-chevron-down"></span>
-              </button>
-              <ul class="dropdown-menu slidedown">
-                <li><a href="#"><span class="glyphicon glyphicon-refresh">
-                </span>Refresh</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-ok-sign">
-                </span>Available</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-remove">
-                </span>Busy</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-time"></span>
-                  Away</a></li>
-                <li class="divider"></li>
-                <li><a href="#"><span class="glyphicon glyphicon-off"></span>
-                  Sign Out</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="panel-body">
-              <ul class="chat">
-              </ul>
-          </div>
-          <div class="panel-footer">
-              <div class="input-group">
-                  <input id="btn-input" type="text" class="form-control input-sm" autofocus="autofocus" placeholder="Type your message here..." />
-                  <span class="input-group-btn">
-                      <button type="button" class="btn btn-warning btn-sm" id="send-msg-btn">
-                          Send</button>
-                  </span>
+    <div class="chat-list-container">
+      <ul data-role="listview" id="contacts-list">
+        {% for name in names %}
+          <li><a href="#" id={{ name }}>{{ name }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="chat-container">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <span class="glyphicon glyphicon-comment"></span>
+              <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                  <span class="glyphicon glyphicon-chevron-down"></span>
+                </button>
+                <ul class="dropdown-menu slidedown">
+                  <li><a href="#"><span class="glyphicon glyphicon-refresh">
+                  </span>Refresh</a></li>
+                  <li><a href="#"><span class="glyphicon glyphicon-ok-sign">
+                  </span>Available</a></li>
+                  <li><a href="#"><span class="glyphicon glyphicon-remove">
+                  </span>Busy</a></li>
+                  <li><a href="#"><span class="glyphicon glyphicon-time"></span>
+                    Away</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#"><span class="glyphicon glyphicon-off"></span>
+                    Sign Out</a></li>
+                </ul>
               </div>
+            </div>
+            <div class="panel-body">
+            </div>
+            <div class="panel-footer">
+                <div class="input-group">
+                    <input id="btn-input" type="text" class="form-control input-sm" autofocus="autofocus" placeholder="Type your message here..." />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-warning btn-sm" id="send-msg-btn">
+                            Send</button>
+                    </span>
+                </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  </div>
 
   <div class="settings-container">
       <button type="button" id="pref-btn">Preferences</button>
@@ -84,6 +89,11 @@
       </ul>
     </div>
   </div>
+</div>
+
+  <script id="messages" type="text/x-jQuery-tmpl">
+    <ul class="chat" id="chatroom-msgs-${name}"></ul>
+  </script>
 
   <script id="buddyMsg" type="text/x-jQuery-tmpl">
     <li class="left clearfix">
