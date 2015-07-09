@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python
 
 from google.appengine.ext.webapp import template
@@ -33,18 +32,15 @@ APPLICATION_SECRET = '74RGvay4eEyYnpkGg1+hMQ=='
 ################################################################################
 # Utility Functions
 ################################################################################
-def getAuthTicket(user):
-    print "ticketauth:" + str(user['user_id'])
-    username = ''
-    print "user id:" + str(user['user_id'])
-    if str(user['user_id']) == '5629499534213120':
-        username = 'asdf'
-    else:
-        username = 'test-user1'
-    print "username:" + str(username)
-
+def getAuthTicket(username):
+    #print "ticketauth:" + str(user['user_id'])
+    #print "user" + str(self.User)
+    #print "user id:" + str(user['user_id'])
+    #username = self.user.get_username()
+    print "username:" + str(''.join(username).encode('ascii','ignore'))
+    username = ''.join(username).encode('ascii','ignore')
     userTicket = {
-        'identity': {'type': 'username', 'endpoint': username},#str(user['user_id'])},
+        'identity': {'type': 'username', 'endpoint': username},
         'expiresIn': 3600, #1 hour expiration time of session when created using this ticket
         'applicationKey': APPLICATION_KEY,
         'created': datetime.utcnow().isoformat()
@@ -83,22 +79,21 @@ def not_logged_in(handler):
     Decorator that checks if there's a user associated with the current session.
     Will also fail if there's no session present.
   """
-  def check_login(self, *args, **kwargs):
+    def check_login(self, *args, **kwargs):
     auth = self.auth
     if auth.get_user_by_session():
-      self.redirect(self.uri_for('home'), abort=True)
+        self.redirect(self.uri_for('home'), abort=True)
     else:
-      return handler(self, *args, **kwargs)
+        return handler(self, *args, **kwargs)
 
-  return check_login
+    return check_login
 
 def printUser():
-    info = User.query().fetch()
     print "User List:"
     print 100 * '#'
-    for user in User.query.fetch():
+    for user in User.query().fetch():
         for name in user._properties:
-            print getattr(user, name)
+            print str(name) + ":" + str(getattr(user, name))
         print 100 * '#'
 
 ################################################################################
@@ -354,7 +349,7 @@ class TicketHandler(BaseHandler):
     def get(self):
         print "TicketHandler"
         #print self.user
-        self.response.write(getAuthTicket(self.user_info))
+        self.response.write(getAuthTicket(self.user.get_username()))
 
 
 class LoginHandler(BaseHandler):

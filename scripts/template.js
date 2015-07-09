@@ -1,34 +1,16 @@
 /*------------------------------------------------------------------------------
-Testing Section
+Initializations
 ------------------------------------------------------------------------------*/
-//console.log(localStorage.getItem('username'));
-var global_username; //= 'asdf';
-var current_recipient;// = 'asdf';
+var global_username = localStorage.getItem('username');
+var current_recipient;
 var prev_recipient = '';
 var my_id;
 var recipient_id;
+
 $(document).ready(function() {
   $('#my-top-header').html(global_username + '\'s Convos');
 });
 
-/*
-if (localStorage.getItem('chatroomList') === null) {
-    localStorage.setItem('chatroomList', {});
-}*/
-
-var chatroomList = localStorage.getItem('chatroomList') || [];
-
-if (localStorage.getItem('username') == 'asdf'){
-    global_username = 'asdf';
-    current_recipient = 'test-user1';
-    my_id = '5629499534213120';
-    recipient_id = '6173208034148352';
-} else {
-    global_username = 'test-user1';
-    current_recipient = 'asdf';
-    my_id = '6173208034148352';
-    recipient_id = '5629499534213120';
-}
 /*------------------------------------------------------------------------------
 Messages
 ------------------------------------------------------------------------------*/
@@ -49,9 +31,17 @@ function chatroom(recipient, messages, view_id) {
 
 var sendMsgToServer = function(msg) {
     $.post('/msg', {"msg": msg}, function() {
-        console.log('msg sent to back end');
+        console.log('Msg sent to back-end');
     });
-}
+};
+
+var formatMsg = function(user, username, time, msg) {
+    if (user) {
+        $('#userMsg').tmpl({'username': username, 'time': time, 'msg': msg}).appendTo('#chatroom-msgs-'.concat(current_recipient));
+    } else {
+        $('#buddyMsg').tmpl({'username': username, 'time': time, 'msg': msg}).appendTo('#chatroom-msgs-'.concat(current_recipient));
+    }
+};
 
 /*------------------------------------------------------------------------------
 Sinch Initialization
@@ -64,11 +54,10 @@ sinchClient = new SinchClient({
 });
 
 $.get('/ticket', function(authTicket) {
-    //console.log('inside ticket' + authTicket);
+    //console.log('authTicket:' + authTicket);
     //var sessionObj = JSON.parse(localStorage['sinchSession-' + sinchClient.applicationKey] || '{}');
 
     sinchClient.start(eval('(' + authTicket + ')'))
-    //sinchClient.start({'username':'asdf', 'password':'asdf'})
         .then(function() {
             // Handle Sinch success
             console.log('Sinch Start Successful');
@@ -87,20 +76,18 @@ var messageClient = sinchClient.getMessageClient();
 
 var eventListener = {
     onIncomingMessage: function(msg){
-      /*
         console.log('Message Received');
-        console.log('message came for you:' + this.message.textBody);
+        /*console.log('message:' + this.message.textBody);
         console.log('senderID' + this.message.senderId);
         console.log('recipientID' + this.message.recipientIds);
         console.log('current_recipient' + current_recipient);*/
-        // Display messages if they didn't com from you
         if (msg.senderId != global_username) {
-                var time = timeStamp();
-                var text = msg.textBody;
-                $('#buddyMsg').tmpl({'username': current_recipient, 'time': time , 'msg': msg.textBody}).appendTo('#chatroom-msgs-'.concat(current_recipient));
-                var recvMsg = JSON.stringify(new message(current_recipient, current_recipient, text, time));
-                sendMsgToServer(recvMsg);
-                $('.panel-body').scrollTop($('.panel-body')[0].scrollHeight);
+            var time = timeStamp();
+            var text = msg.textBody;
+            formatMsg(false, current_recipient, time, text);
+            var recvMsg = JSON.stringify(new message(current_recipient, current_recipient, text, time));
+            sendMsgToServer(recvMsg);
+            scrollUp();
         }
     }
 };

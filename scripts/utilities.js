@@ -20,6 +20,10 @@ var clearError = function() {
   $('div.error').text('');
 }
 
+var scrollUp = function() {
+  $('.panel-body').scrollTop($('.panel-body')[0].scrollHeight);
+};
+
 // Pressing enter submits text
 $('#btn-input').keypress(function (e) {
       var code = e.keyCode || e.which;

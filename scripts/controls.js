@@ -1,44 +1,50 @@
 /*------------------------------------------------------------------------------
 Contacts Controls
 ------------------------------------------------------------------------------*/
+var appendMsgsToChatbox = function() {
+    $('#messages').tmpl({'name': current_recipient}).appendTo('.panel-body');
+};
+
+var loadPrevMsgs = function() {
+    $.get('/msg', function(msgs) {
+      // {recipient: [{recipient, sender, timestamp, message}, ...]}
+        try {
+            var msgsJson = JSON.parse(msgs);
+            var msgsList = msgsJson[current_recipient];
+            for (i = 0; i < msgsList.length; i++) {
+                if (msgsList[i].sender == global_username) {
+                    formatMsg(true, global_username, msgsList[i].timestamp, msgsList[i].message);
+                } else {
+                    formatMsg(false, current_recipient, msgsList[i].timestamp, msgsList[i].message);
+                }
+                scrollUp();
+            }
+        }
+        catch(err) {
+            alert('Error while loading previous messages with ' + current_recipient + ':' + err);
+        }
+    });
+};
+
 $('#contacts-list li').on('click', function(e) {
     current_recipient = $(this).text();
-    //makeChatroom(current_recipient);
-    var tmp = '#chatroom-msgs-'.concat(current_recipient);
     if (current_recipient != prev_recipient) {
-      $('#messages').tmpl({'name': current_recipient}).appendTo('.panel-body');
-      if (prev_recipient != '') {
-        $('#chatroom-msgs-'.concat(prev_recipient)).css('display', 'none');
-      }
-      prev_recipient = current_recipient;
-      $(tmp).css('display', 'block');
+        // If there was a previous recipient
+        if (prev_recipient != '') {
+            $('#chatroom-msgs-'.concat(prev_recipient)).css('display', 'none');
+        }
+        $('#chatroom-msgs-'.concat(current_recipient)).css('display', 'block');
+        prev_recipient = current_recipient;
     }
     $('#chatrm-btn').trigger('click');
-
-    // Load all previous messages
-    $.get('/msg', function(msgs) {
-        // {recipient: [{recipient, sender, timestamp, message}...]}
-        var msgList = JSON.parse(msgs);
-        var msg = msgList[current_recipient];
-        if (msg) {
-          for (i = 0; i < msg.length; i++) {
-              if (msg[i].sender == global_username) {
-                $('#userMsg').tmpl({'username': global_username, 'time': msg[i].timestamp, 'msg': msg[i].message}).appendTo('#chatroom-msgs-'.concat(current_recipient));
-              } else {
-                $('#buddyMsg').tmpl({'username': current_recipient, 'time': msg[i].timestamp, 'msg': msg[i].message}).appendTo('#chatroom-msgs-'.concat(current_recipient));
-              }
-              $('.panel-body').scrollTop($('.panel-body')[0].scrollHeight);
-          }
-      }
-    });
 });
 
-var makeChatroom = function(recipient) {
-    // Recipient is not in list of chatrooms
-    if (!chatroomList[recipient]) {
-        chatroomList[recipient] = [];
-    }
-};
+// Potential race condition on different browsers?
+$('#contacts-list li').one('click', function(e) {
+    appendMsgsToChatbox();
+    loadPrevMsgs();
+});
+
 /*------------------------------------------------------------------------------
 Chat Controls
 ------------------------------------------------------------------------------*/
@@ -75,22 +81,17 @@ $('#settings-btn').on('click', function(e) {
 });
 
 $('#send-msg-btn').on('click', function(e) {
-    // Q:Is this needed?
-    e.preventDefault();
-    clearError();
-
     var text = $('input#btn-input').val();
     var time = timeStamp();
-    $('#userMsg').tmpl({'username': global_username, 'time': time , 'msg': text}).appendTo('#chatroom-msgs-'.concat(current_recipient));//appendTo('.chat');
-    $('.panel-body').scrollTop($('.panel-body')[0].scrollHeight);
-    // Clears input?
+
+    formatMsg(true, global_username, time, text);
+    scrollUp();
     $('#btn-input').val('');
 
     var sinchMessage = messageClient.newMessage(current_recipient, text);
-    //console.log('message object to be sent:' + sinchMessage.recipientIds);
-
     messageClient.send(sinchMessage)
         .then(function() {
+          // Needs to have "new"
           var msg = JSON.stringify(new message(global_username, current_recipient, text, time));
           sendMsgToServer(msg);
           console.log('Message Sent');
