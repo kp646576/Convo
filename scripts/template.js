@@ -35,11 +35,13 @@ function message(sender, recipient, message, timestamp) {
     this.timestamp = timestamp;
 }
 
+/*
 function chatroom(recipient, messages, view_id) {
     this.recipient = recipient;
     this.messages = messages;
     this.view_id = view_id;
 }
+*/
 
 var sendMsgToServer = function(msg) {
     $.post('/msg', {"msg": msg}, function() {

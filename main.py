@@ -324,7 +324,8 @@ class ContactsListHandler(BaseHandler):
         #self.user.put()
 
 class MessageHandler(BaseHandler):
-    #def get(self):
+    def get(self):
+        self.response.write(json.dumps(self.user.messages, ensure_ascii=True))
 
     def post(self):
         msg = json.loads(self.request.get('msg'))#('msg')
@@ -337,13 +338,15 @@ class MessageHandler(BaseHandler):
         if self.user.messages is None:
             self.user.messages = {}
         if not recipient in self.user.messages:
-            self.user.messages[recipient] = []
+            self.user.messages[str(recipient)] = []
             # do I need to put?
             print 'NEW RECIPIENT CREATED'
 
-        self.user.messages[msg['recipient']].append(msg)
+        #self.user.messages = {}
+        #self.user.messages[str(msg['recipient'])] = []
+        self.user.messages[str(msg['recipient'])].append(msg)
         self.user.put()
-        print 'new msg: ' + str(self.user.messages[msg['recipient']])
+        print 'new msg: ' + str(self.user.messages[str(msg['recipient'])])
 
 
 class TicketHandler(BaseHandler):

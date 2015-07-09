@@ -14,6 +14,23 @@ $('#contacts-list li').on('click', function(e) {
       $(tmp).css('display', 'block');
     }
     $('#chatrm-btn').trigger('click');
+
+    // Load all previous messages
+    $.get('/msg', function(msgs) {
+        // {recipient: [{recipient, sender, timestamp, message}...]}
+        var msgList = JSON.parse(msgs);
+        var msg = msgList[current_recipient];
+        if (msg) {
+          for (i = 0; i < msg.length; i++) {
+              if (msg[i].sender == global_username) {
+                $('#userMsg').tmpl({'username': global_username, 'time': msg[i].timestamp, 'msg': msg[i].message}).appendTo('#chatroom-msgs-'.concat(current_recipient));
+              } else {
+                $('#buddyMsg').tmpl({'username': current_recipient, 'time': msg[i].timestamp, 'msg': msg[i].message}).appendTo('#chatroom-msgs-'.concat(current_recipient));
+              }
+              $('.panel-body').scrollTop($('.panel-body')[0].scrollHeight);
+          }
+      }
+    });
 });
 
 var makeChatroom = function(recipient) {
