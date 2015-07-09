@@ -7,6 +7,10 @@ var current_recipient;// = 'asdf';
 var prev_recipient = '';
 var my_id;
 var recipient_id;
+$(document).ready(function() {
+  $('#my-top-header').html(global_username + '\'s Convos');
+});
+
 /*
 if (localStorage.getItem('chatroomList') === null) {
     localStorage.setItem('chatroomList', {});
