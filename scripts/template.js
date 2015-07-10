@@ -29,8 +29,31 @@ function chatroom(recipient, messages, view_id) {
 }
 */
 
+var getMsgsFromServer = function(recipient) {
+    $.post('/getMsgs', {"recipient": recipient}, function(msgs) {
+        console.log('Msgs recieved from back-end');
+        // {recipient: [{recipient, sender, timestamp, message}, ...]}
+        try {
+            var msgsList = JSON.parse(msgs);
+            if (msgsList.length > 0) {
+                for (i = 0; i < msgsList.length; i++) {
+                    if (msgsList[i].sender == global_username) {
+                        formatMsg(true, global_username, msgsList[i].timestamp, msgsList[i].message);
+                    } else {
+                        formatMsg(false, current_recipient, msgsList[i].timestamp, msgsList[i].message);
+                    }
+                    scrollUp();
+                }
+            }
+        }
+        catch(err) {
+            alert('Error while loading previous messages with ' + current_recipient + ':' + err);
+        }
+    });
+}
+
 var sendMsgToServer = function(msg) {
-    $.post('/msg', {"msg": msg}, function() {
+    $.post('/storeMsg', {"msg": msg}, function() {
         console.log('Msg sent to back-end');
     });
 };

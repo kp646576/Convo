@@ -5,27 +5,6 @@ var appendMsgsToChatbox = function() {
     $('#messages').tmpl({'name': current_recipient}).appendTo('.panel-body');
 };
 
-var loadPrevMsgs = function() {
-    $.get('/msg', function(msgs) {
-      // {recipient: [{recipient, sender, timestamp, message}, ...]}
-        try {
-            var msgsJson = JSON.parse(msgs);
-            var msgsList = msgsJson[current_recipient];
-            for (i = 0; i < msgsList.length; i++) {
-                if (msgsList[i].sender == global_username) {
-                    formatMsg(true, global_username, msgsList[i].timestamp, msgsList[i].message);
-                } else {
-                    formatMsg(false, current_recipient, msgsList[i].timestamp, msgsList[i].message);
-                }
-                scrollUp();
-            }
-        }
-        catch(err) {
-            alert('Error while loading previous messages with ' + current_recipient + ':' + err);
-        }
-    });
-};
-
 $('#contacts-list li').on('click', function(e) {
     current_recipient = $(this).text();
     if (current_recipient != prev_recipient) {
@@ -42,7 +21,7 @@ $('#contacts-list li').on('click', function(e) {
 // Potential race condition on different browsers?
 $('#contacts-list li').one('click', function(e) {
     appendMsgsToChatbox();
-    loadPrevMsgs();
+    getMsgsFromServer(current_recipient);
 });
 
 /*------------------------------------------------------------------------------
