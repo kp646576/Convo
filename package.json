@@ -1,0 +1,8 @@
+{
+  "name": "Convo",
+  "version": "0.1.0",
+  "dependencies": {
+    "grunt": "^0.4.5",
+    "grunt-jsbeautifier": "^0.2.10"
+  }
+}
