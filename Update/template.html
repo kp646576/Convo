@@ -19,24 +19,23 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-inverse">
+  <nav class="navbar navbar-inverse navbar-fixed-top">
     <p class="navbar-text navbar-center" style="color:white">Kaiwa</p>
-      <div class="thumb-container">
-   <img src="/images/yokaiwatch.jpg" class="img-thumbnail" alt="image here" width="100" height="100"> 
-</div>
+    <div class="thumb-container">
+      <img src="/images/yokaiwatch.jpg" class="img-thumbnail" alt="image here" width="100" height="100">
+    </div>
   </nav>
-    
-    <!-- Possible additional otpions/add friend  -->
-    
-    <div class="modal-container">
-  
+
+  <!-- Possible additional otpions/add friend  -->
+  <div class="modal-container">
+
   <!-- Trigger the modal with a button -->
   <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Add a Contact</button>
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
-    
+
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
@@ -50,22 +49,21 @@
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
-      
+
     </div>
   </div>
-  
-</div>
-   
-    <!--Search Bar -->
-     <div class="row">
-  
-    <div class="col-sm-8">
-         </div>
+  </div>
 
-      <div class="col-sm-4">          
-        <input type="search" class="form-control" id="search" placeholder="Search Contacts">
-      </div>
-          
+  <!--Search Bar -->
+  <div class="row">
+
+    <div class="col-sm-8">
+    </div>
+    <div class="col-sm-4">
+      <input type="search" class="form-control" id="search" placeholder="Search Contacts">
+    </div>
+  </div> <!-- This div was missing? is it suppose to be here -->
+
 
   <!--Contacts Container -->
   <div class="list-group" style="display:none">
@@ -82,15 +80,15 @@
   <div class="chat-container">
     <div class="row">
       <div class="panel panel-primary">
-        <div class="panel-body">
+        <div class="panel-body convo-msgbody">
+          Chat goes here.
         </div>
         <div class="panel-footer">
           <div class="input-group">
             <input id="btn-input" type="text" class="form-control input-sm" autofocus="autofocus" />
             <span class="input-group-btn">
-                        <button type="button" class="btn btn-danger btn-sm" id="send-msg-btn">
-                            Send</button>
-                    </span>
+              <button type="button" class="btn btn-danger btn-sm" id="send-msg-btn">Send</button>
+            </span>
           </div>
         </div>
       </div>
