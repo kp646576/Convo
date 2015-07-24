@@ -4,43 +4,39 @@
       src: url('fonts/Levi_Brush.ttf');
       /*URL to font*/
     }
-
     @font-face {
       font-family: 'ChampagneLimousines';
       src: url('fonts/Champagne_Limousines.ttf');
     }
-
     p {
       color: white;
       font-size: 100%;
       font-family: 'LeviBrush';
       text-align: center;
     }
-
     .full-width-tabs > ul.nav.nav-tabs {
       display: table;
       width: 100%;
       table-layout: fixed;
+      border: 100px;
     }
-
     .full-width-tabs > ul.nav.nav-tabs > li {
       float: none;
       display: table-cell;
     }
-
     .full-width-tabs > ul.nav.nav-tabs > li > a {
       text-align: center;
+      border-radius: 5px;
+      padding-top: 13px;
+      padding-bottom: 13px;
     }
-
     li {
       width: 100%;
     }
-
     a {
       color: white;
       font-family: 'ChampagneLimousines';
     }
-
     .convo-msgbody {
       background: #e5e5e5;
       margin: 0;
