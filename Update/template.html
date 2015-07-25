@@ -19,12 +19,12 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-inverse">
+  <nav class="navbar navbar-inverse" style="margin:0;">
     <p class="navbar-inner navbar-text navbar-center" style="color:white">Kaiwa</p>
   </nav>
 
   <!-- Possible additional otpions/add friend  -->
-  <div class="modal-container">
+  <div class="modal-container" style="display:none">
 
     <!-- Trigger the modal with a button -->
     <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Add a Contact</button>
@@ -52,15 +52,13 @@
   </div>
 
   <!--Search Bar -->
-  <div class="row">
-
+  <div class="row" style="display:none">
     <div class="col-sm-8">
     </div>
     <div class="col-sm-4">
       <input type="search" class="form-control" id="search" placeholder="Search Contacts">
     </div>
   </div>
-  <!-- This div was missing? is it suppose to be here -->
 
 
   <!--Contacts Container -->
@@ -75,19 +73,22 @@
   </div>
 
   <!--Chatbox Container -->
-  <div class="chat-container">
+  <div class="container">
+    <div class="row" style=" ">
+
+    </div>
+    <div class="panel-body" style="border-style: solid;
+    border-width: 5px; border-color: red;  margin-left: auto;
+  margin-right: auto; height:452px;">
+      hello
+    </div>
     <div class="row">
-      <div class="panel panel-primary">
-        <div class="panel-body convo-msgbody">
-          Chat goes here.
-        </div>
-        <div class="panel-footer">
-          <div class="input-group">
-            <input id="btn-input" type="text" class="form-control input-sm" autofocus="autofocus" />
-            <span class="input-group-btn">
+      <div class="panel-footer">
+        <div class="input-group">
+          <input id="btn-input" type="text" class="form-control input-sm" autofocus="autofocus" style="margin:0" />
+          <span class="input-group-btn" style="margin: 0">
               <button type="button" class="btn btn-danger btn-sm" id="send-msg-btn">Send</button>
             </span>
-          </div>
         </div>
       </div>
     </div>
