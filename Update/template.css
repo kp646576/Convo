@@ -10,11 +10,23 @@
       src: url('fonts/Champagne_Limousines.ttf');
     }
 
-    p {
+    .navbar {
+      margin: 0;
+    }
+
+    .navbar p {
       color: white;
       font-size: 100%;
       font-family: 'LeviBrush';
       text-align: center;
+    }
+
+    .modal-container {
+      display: none;
+    }
+
+    .list-group {
+      display: none;
     }
 
     .full-width-tabs > ul.nav.nav-tabs {
@@ -41,9 +53,46 @@
       font-family: 'ChampagneLimousines';
     }
 
-    .convo-msgbody {
-      background: #e5e5e5;
+    .chat-container {
+      position: relative;
+      height: auto;
+    }
+
+    .panel-body {
+      /*background: #e5e5e5;*/
+      overflow-y: scroll;
+      height: 520px;
+
+      border-style: solid;
+      border-width:5px;
+      border-color:red;
+      margin-left:auto;
+      margin-right:auto;
+      /*height:452px;*/
+    }
+
+    .msgBody {
+      list-style: none;
       margin: 0;
-      max-height: 1000px;
-      overflow-x: hidden;
+      padding: 0;
+    }
+
+    .msgBody li {
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #B3A9A9;
+    }
+
+    .msgBody li.left .msgBody-row {
+      margin-left: 60px;
+    }
+
+    .msgBody li.right .msgBody-row {
+      margin-right: 60px;
+      margin-left: 60px;
+    }
+
+    .msgBody li .msgBody-row p {
+      margin: 0;
+      color: #777777;
     }
