@@ -1,18 +1,11 @@
-{% extends "main.html" %}
+{% extends "login-template.html" %}
 
 {% block maincontent %}
-
-<h1>Recover password</h1>
-
-<p>Forgot your password? Click the link below to receive a link to recover your password.</p>
-
-{% if not_found %}
-    <strong>Not found!</strong> We could not found any user with the given username.
-{% endif %} 
-
-<form class="form" action= "/forgot" method="POST">
-	<input type="text" value="{{ username }}" name="username"/>
-	<input type="submit" value="Send password reset link"/>
-</form>
-
+  <div class="container" style="width: 300px;">
+    <form class="form" action= "/forgot" method="POST">
+      <input class="form-control" type="text" name="username" placeholder="Username">
+      <input class="form-control top-buffer" type="password" name="password" placeholder="New password">
+      <button class="btn btn-danger pull-right top-buffer" type="submit">Reset Password</button>
+    </form>
+  </div>
 {% endblock %}

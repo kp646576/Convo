@@ -242,7 +242,7 @@ class ForgotPasswordHandler(BaseHandler):
           'username': username,
           'not_found': not_found
         }
-        self.render_template('forgot.html', params)
+        self.render_template('quick-reset.html', params)
 
 
 class VerificationHandler(BaseHandler):
@@ -349,8 +349,9 @@ class TicketHandler(BaseHandler):
 class LoginHandler(BaseHandler):
     @not_logged_in
     def get(self):
-        self._serve_page()
-        #self.render_template('login.html')
+        #self._serve_page()
+        print "gets served?"
+        self.render_template('login.html')
 
     def post(self):
         username = self.request.get('username')

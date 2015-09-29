@@ -24,7 +24,15 @@ Header
 /*------------------------------------------------------------------------------
 Containers
 ------------------------------------------------------------------------------*/
+.chat-room
+{
+  display: none
+}
 .contacts-container
+{
+  display: none
+}
+.chat-list-container
 {
   display: none
 }

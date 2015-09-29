@@ -1,49 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Convo</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="/../images/icon.ico">
-    <link rel="stylesheet" type="text/css" href="/../css/login.css">
-</head>
-<body>
-    <div class="container">
-        <div class="row login_box">
-            <div class="col-md-6 col-xs-6 follow line" align="center">
-            </div>
-            <div class="col-md-12 col-xs-12" align="center">
-                <div class="outter"><img src="/images/icon.ico" class="image-circle"/></div>
-                <h1>Welcome to Convo!</h1>
-                <h3>Where the Conversation Starts~</h3>
-            </div>
+{% extends "login-template.html" %}
 
-            <div class="col-md-6 col-xs-6 follow line" align="center">
-            </div>
+{% block maincontent %}
 
-            <div class="col-md-12 col-xs-12 login_control">
-                <form class="form" action= "/" method="POST">
-                    <div class="control">
-                        <div class="label">Username</div>
-                        <input type="text" class="form-control" id="username" name="username" autofocus="autofocus"/>
-                    </div>
 
-                    <div class="control">
-                         <div class="label">Password</div>
-                        <input type="password" class="form-control" id="password" name="password"/>
-                    </div>
-                    <div align="center">
-                        <button class="btn btn-orange" id="loginUser" type="submit">LOGIN</button>
-                    </div>
-                  </form>
-                    <div align="center">
-                        <button class="btn btn-orange" id="createUser" onclick="window.location.href='/signup'">SIGNUP</button>
-                        <button class="btn btn-orange" id="editUser" onclick="window.location.href='/forgot'">Forgot </button>
-                    </div>
-
-            </div>
-        </div>
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="../scripts/login.js"></script>
-</body>
-</html>
+<form class="form" action= "/" method="POST">
+    <input class="form-control" type="text" name="username" placeholder="Username">
+    <input class="form-control top-buffer" type="password" name="password" placeholder="Password">
+   
+    <a href="#">Forgot password?</a>   
+    <button class="btn btn-danger pull-right top-buffer" type="submit">Log in</button>
+       <button type="button" class="btn pull-right top-buffer">Sign up</button>
+        </form>
+{% endblock %}
