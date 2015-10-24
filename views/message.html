@@ -1,6 +1,22 @@
-{% extends "main.html" %}
-
-{% block maincontent %}
-<p>{% autoescape off %}{{ message }}{% endautoescape %}</p>
-
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kaiwa</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+  <h1 style="margin-top: 100px;">Welcome to Kaiwa!</h1>
+  <div style="text-align:center;">
+    <button class="btn btn-danger" onclick="window.location='/'">Click to Enter</button>
+  </div>
+</body>
+</html>

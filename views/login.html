@@ -1,14 +1,12 @@
 {% extends "login-template.html" %}
 
 {% block maincontent %}
-
-
 <form class="form" action= "/" method="POST">
     <input class="form-control" type="text" name="username" placeholder="Username">
     <input class="form-control top-buffer" type="password" name="password" placeholder="Password">
-   
-    <a href="#">Forgot password?</a>   
+    <a href="/forgot">Forgot password?</a>   
     <button class="btn btn-danger pull-right top-buffer" type="submit">Log in</button>
-       <button type="button" class="btn pull-right top-buffer">Sign up</button>
-        </form>
+    <button type="button" class="btn pull-right top-buffer" onclick="window.location='/signup'">Sign up</button>
+</form>
+
 {% endblock %}

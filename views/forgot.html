@@ -1,11 +1,9 @@
 {% extends "login-template.html" %}
 
 {% block maincontent %}
-  <div class="container" style="width: 300px;">
-    <form class="form" action= "/forgot" method="POST">
-      <input class="form-control" type="text" name="username" placeholder="Username">
-      <input class="form-control top-buffer" type="password" name="password" placeholder="New password">
-      <button class="btn btn-danger pull-right top-buffer" type="submit">Reset Password</button>
-    </form>
-  </div>
+  <form class="form" action= "/forgot" method="POST">
+    <input class="form-control" type="text" name="username" placeholder="Username">
+    <input class="form-control top-buffer" type="password" name="password" placeholder="New password">
+    <button class="btn btn-danger pull-right top-buffer" type="submit">Reset Password</button>
+  </form>
 {% endblock %}

@@ -9,6 +9,9 @@ class User(webapp2_extras.appengine.auth.models.User):
   contact_list = ndb.StringProperty(repeated=True)
   messages = ndb.JsonProperty()
 
+  def get_username(self):
+      return self.auth_ids
+
   def set_password(self, raw_password):
     """Sets the password for the current user
 

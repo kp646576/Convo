@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Convo</title>
+  <title>Kaiwa</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="/images/icon.ico">
   <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
@@ -102,10 +102,10 @@
       </span>
       <div class="chat-body clearfix">
         <div class="header">
-          <strong class="primary-font"> ${username} </strong>
-          <small class="pull-right text-muted"> <span class="glyphicon glyphicon-time"></span> ${time} </small>
+          <strong class="primary-font"> ${sender} </strong>
+          <small class="pull-right text-muted"> <span class="glyphicon glyphicon-time"></span> ${timeStamp} </small>
         </div>
-        <p> ${msg} </p>
+        <p> ${message} </p>
       </div>
     </li>
   </script>
@@ -117,13 +117,15 @@
       </span>
       <div class="chat-body clearfix">
         <div class="header">
-          <small class=" text-muted"><span class="glyphicon glyphicon-time"></span> ${time} </small>
-          <strong class="pull-right primary-font"> ${username} </strong>
+          <small class=" text-muted"><span class="glyphicon glyphicon-time"></span> ${timeStamp} </small>
+          <strong class="pull-right primary-font"> ${sender} </strong>
         </div>
-        <p> ${msg} </p>
+        <p> ${message} </p>
       </div>
     </li>
   </script>
+
+<!--
   <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
   <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
@@ -131,6 +133,7 @@
   <script src="../scripts/sinch.min.js"></script>
   <script src="../scripts/template.js"></script>
   <script src="../scripts/utilities.js"></script>
-  <script src="../scripts/controls.js"></script>
+  <script src="../scripts/controls.js"></script>-->
+  <script data-main="../scripts/js/main.js" src="../scripts/lib/require.js"></script>
 </body>
 </html>

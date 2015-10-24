@@ -35,3 +35,6 @@ h1 {
   font-family: 'LeviBrush';
   text-align: center;
 }
+.navbar {
+    margin-bottom: 0;
+}

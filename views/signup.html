@@ -3,10 +3,12 @@
 {% endblock %}
 {% block maincontent %}
 <form class="form" action= "/signup" method="POST">
-  <input class="form-control top-buffer" type="text" name="e-mail" placeholder="E-mail">
+  <input class="form-control top-buffer" type="text" name="email" placeholder="E-mail">
   <input class="form-control top-buffer" type="text" name="username" placeholder="Username">
   <input class="form-control top-buffer" type="password" name="password" placeholder="Password">
-  <input class="form-control top-buffer" type="password" name="password" placeholder="Re-type Password">
+  <input class="form-control top-buffer" type="password" placeholder="Re-type Password">
+  <input class="form-control top-buffer" type="text" name="firstname" placeholder="First Name">
+  <input class="form-control top-buffer" type="text" name="lastname" placeholder="Last Name">
   <button class="btn pull-right top-buffer" type="submit">Sign up</button>
 </form>
 {% endblock %}
