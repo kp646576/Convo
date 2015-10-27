@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from google.appengine.dist import use_library
+use_library('django', '1.3')
 from google.appengine.ext.webapp import template
 #from google.appengine.api import users
 
@@ -175,6 +177,7 @@ class BaseHandler(webapp2.RequestHandler):
 class MainHandler(BaseHandler):
     @user_required
     def get(self):
+        printUser()
         names = [str(getattr(user, 'auth_ids')[0]) for user in User.query().fetch()]
         names.sort()
         self.render_template('template.html', {'names': names})
@@ -191,6 +194,7 @@ class SignupHandler(BaseHandler):
         last_name = self.request.get('lastname')
 
         print '####################'
+        print 'Signing up with:'
         print email
         print user_name
         print password
@@ -198,30 +202,33 @@ class SignupHandler(BaseHandler):
         print last_name
         print '####################'
 
+        # Automatically verified for now
         unique_properties = ['email_address']
         user_data = self.user_model.create_user(user_name,
             unique_properties,
             email_address=email, name=first_name, password_raw=password,
-            last_name=last_name, verified=False)
-        print "##########: " + str(user_data)
+            last_name=last_name, verified=True)
+
+        self.render_template('message.html')
+        
+
+        # This actually does not work with the current set up
+        '''
         if not user_data[0]: #user_data is a tuple
             self.display_message('Unable to create user for email %s because of \
                 duplicate keys %s' % (user_name, user_data[1]))
             return
 
-        print "##################### SECOND POST"
         user = user_data[1]
         user_id = user.get_id()
 
         token = self.user_model.create_signup_token(user_id)
+        '''
+        #verification_url = self.uri_for('verification', type='v', user_id=user_id,
+        #    signup_token=token, _full=True)
 
-        print "##################### GOT THIS FAR BRAH"
-
-        verification_url = self.uri_for('verification', type='v', user_id=user_id,
-            signup_token=token, _full=True)
-
-        msg = 'Send an email to user in order to verify their address. \
-              They will be able to do so by visiting <a href="{url}">{url}</a>'
+        #msg = 'Send an email to user in order to verify their address. \
+        #      They will be able to do so by visiting <a href="{url}">{url}</a>'
 
         #self.display_message(msg.format(url=verification_url))
 
@@ -246,7 +253,7 @@ class ForgotPasswordHandler(BaseHandler):
         msg = 'Send an email to user in order to reset their password. \
               They will be able to do so by visiting <a href="{url}">{url}</a>'
 
-        self.display_message(msg.format(url=verification_url))
+        #self.display_message(msg.format(url=verification_url))
 
     def _serve_page(self, not_found=False):
         username = self.request.get('username')
